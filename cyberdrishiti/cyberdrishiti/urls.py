@@ -14,10 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 """cyberdrishiti URL Configuration"""
+
+from core_backend.views import homepage
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('core_backend.urls')),  # Include URLs from your app
+    path('api/', include('core_backend.urls')),
+    path('', homepage, name='homepage')  # Include URLs from your app
 ]
