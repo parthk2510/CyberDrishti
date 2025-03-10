@@ -1,12 +1,22 @@
-import tensorflow as tf  # Import TensorFlow - even if not fully used yet
-# Import scikit-learn - if you plan to use it
+import tensorflow as tf
 from sklearn.ensemble import IsolationForest
-import requests  # Import requests for web requests
+import requests
 from urllib.parse import urlparse
+from datetime import datetime
+import whois  
+from urllib.parse import urlparse
+from core_backend.ml_models.content_analyzer import ContentAnalyzer
+from core_backend.ml_models.domain_behavior_analyzer import DomainBehaviorAnalyzer
+from core_backend.ml_models.ssl_mismatch_detector import SSLMismatchDetector
+from core_backend.ml_models.ui_clone_detector import UICloneDetector
 
 
 class PhishingDetector:
     def __init__(self):
+        self.content_analyzer = ContentAnalyzer()
+        self.domain_behavior_analyzer = DomainBehaviorAnalyzer()
+        self.ssl_mismatch_detector = SSLMismatchDetector()
+        self.ui_clone_detector = UICloneDetector()
         # Placeholder - You'll load your actual model here later
         # self.model = tf.keras.models.load_model('path/to/phishing_model.h5')
         # self.anomaly_detector = IsolationForest(contamination=0.1)
@@ -16,25 +26,53 @@ class PhishingDetector:
         """Basic analysis pipeline for a domain - Placeholder"""
         domain_features = self._extract_features(url)
         # Placeholder prediction - Replace with actual model prediction later
-        threat_score = 0.5  # For now, just return a default score
+        content_score = self.content_analyzer.analyze_content(
+            url)  # Example call
+        behavior_score = self.domain_behavior_analyzer.analyze_behavior(
+            urlparse(url).netloc)  # Example call - domain only
+        ssl_mismatch_score = self.ssl_mismatch_detector.detect_mismatch(
+            url, domain_features.get('ssl_info'))  # Example call
+        ui_clone_score = self.ui_clone_detector.detect_clone(url, domain_features.get(
+            'screenshot_path'))  # Example call - need screenshot path later
+
+        # Combine scores (you'll need to define a proper aggregation strategy)
+        overall_threat_score = (content_score + behavior_score +
+                                ssl_mismatch_score + ui_clone_score) / 4.0  # Simple average for now
+
         return {
-            'threat_score': float(threat_score),
+            'threat_score': float(overall_threat_score),
             'features': domain_features
         }
+
+    def _get_registration_age(self, url):
+        """Get domain registration age in days."""
+        try:
+            w = whois.whois(url)
+            if w.creation_date:
+                creation_date = w.creation_date
+                if isinstance(creation_date, list):
+                    creation_date = creation_date[0]
+                age_days = (datetime.now().date() - creation_date.date()).days
+                return age_days
+            else:
+                return 0
+        except Exception:
+            return 0
 
     def _extract_features(self, url):
         """Extract basic features - Placeholder, expand this later"""
         parsed = urlparse(url)
-        # Basic feature extraction - expand these later
         features = {
             'domain_length': len(parsed.netloc),
             'num_subdomains': parsed.netloc.count('.'),
-            'ssl_verified': self._check_ssl(url),  # Placeholder function
-            'similarity_score': 0.0,  # Placeholder
-            'registration_duration': 0,  # Placeholder
-            # Placeholder function to get SSL info
-            'ssl_info': self._check_ssl_info(url)
-            # Add more features as needed in the future
+            'ssl_verified': self._check_ssl(url),
+            'ssl_info': self._check_ssl_info(url),
+            'domain_registration_age': self._get_registration_age(url),
+            'registrar': self._get_registrar(url),
+            # Placeholder - you'll need to implement screenshotting
+            'screenshot_path': "/path/to/placeholder_screenshot.png",
+            # Placeholder - UI similarity will be handled by UICloneDetector
+            'similarity_score': 0.0,
         }
         return features
 
