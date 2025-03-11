@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CyberDrishti Domain Detection</title>
+</head>
+<body>
+  <h1>CyberDrishti Domain Detection</h1>
+  <form id="domain-form">
+    <input type="url" id="domain-url" placeholder="Enter domain URL" required>
+    <button type="submit">Analyze Domain</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('domain-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const domain = document.getElementById('domain-url').value;
+      document.getElementById('result').innerHTML = 'Submitting domain for analysis...';
+
+      try {
+        // Call the detection API endpoint
+        const response = await fetch('/api/domains/detect/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ url: domain })
+        });
+        const data = await response.json();
+        const domainId = data.id;
+        document.getElementById('result').innerHTML = 'Domain submitted. ID: ' + domainId + '. Waiting for analysis...';
+
+        // Poll the detail API endpoint for updated data
+        const poll = async () => {
+          const detailResponse = await fetch(`/api/domains/${domainId}/`);
+          const detailData = await detailResponse.json();
+
+          if (detailData.status === 'PENDING') {
+            // If still pending, wait 5 seconds and poll again
+            setTimeout(poll, 5000);
+          } else {
+            // Once processed, display the updated details
+            document.getElementById('result').innerHTML = `
+              <h2>Domain: ${detailData.url}</h2>
+              <p>Status: ${detailData.status}</p>
+              <p>Threat Score: ${detailData.threat_score}</p>
+            `;
+          }
+        };
+
+        setTimeout(poll, 5000);
+      } catch (error) {
+        document.getElementById('result').innerHTML = 'Error occurred: ' + error;
+      }
+    });
+  </script>
+</body>
+</html>
