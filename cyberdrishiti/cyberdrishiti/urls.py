@@ -17,12 +17,11 @@ Including another URLconf
 
 from django.urls import path, include
 from django.contrib import admin
-from core_backend.views import homepage, default_homepage
+from core_backend.views import homepage 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('core_backend.urls')),
     path('', homepage, name='homepage'),
-    path('default_homepage', default_homepage,
-         name='default_homepage')  # Include URLs from your app
+     # Include URLs from your app
 ]

@@ -9,40 +9,44 @@ from core_backend.ml_models.content_analyzer import ContentAnalyzer
 from core_backend.ml_models.domain_behavior_analyzer import DomainBehaviorAnalyzer
 from core_backend.ml_models.ssl_mismatch_detector import SSLMismatchDetector
 from core_backend.ml_models.ui_clone_detector import UICloneDetector
+import logging
 
+# Configure logging
+logger = logging.getLogger(__name__)
 
 class PhishingDetector:
     def __init__(self):
-        self.content_analyzer = ContentAnalyzer()
-        self.domain_behavior_analyzer = DomainBehaviorAnalyzer()
-        self.ssl_mismatch_detector = SSLMismatchDetector()
-        self.ui_clone_detector = UICloneDetector()
-        # Placeholder - You'll load your actual model here later
-        # self.model = tf.keras.models.load_model('path/to/phishing_model.h5')
-        # self.anomaly_detector = IsolationForest(contamination=0.1)
-        pass  # For now, no model loading
+        try:
+            self.content_analyzer = ContentAnalyzer()
+            self.domain_behavior_analyzer = DomainBehaviorAnalyzer()
+            self.ssl_mismatch_detector = SSLMismatchDetector()
+            self.ui_clone_detector = UICloneDetector()
+            # Placeholder - You'll load your actual model here later
+            # self.model = tf.keras.models.load_model('path/to/phishing_model.h5')
+            # self.anomaly_detector = IsolationForest(contamination=0.1)
+            pass  # For now, no model loading
+        except Exception as e:
+            logger.error(f"Error initializing PhishingDetector: {str(e)}")
 
     def analyze_domain(self, url):
-        """Basic analysis pipeline for a domain - Placeholder"""
-        domain_features = self._extract_features(url)
-        # Placeholder prediction - Replace with actual model prediction later
-        content_score = self.content_analyzer.analyze_content(
-            url)  # Example call
-        behavior_score = self.domain_behavior_analyzer.analyze_behavior(
-            urlparse(url).netloc)  # Example call - domain only
-        ssl_mismatch_score = self.ssl_mismatch_detector.detect_mismatch(
-            url, domain_features.get('ssl_info'))  # Example call
-        ui_clone_score = self.ui_clone_detector.detect_clone(url, domain_features.get(
-            'screenshot_path'))  # Example call - need screenshot path later
+        try:
+            domain_features = self._extract_features(url)
+            # Placeholder prediction - Replace with actual model prediction later
+            content_score = self.content_analyzer.analyze_content(url)  # Example call
+            behavior_score = self.domain_behavior_analyzer.analyze_behavior(urlparse(url).netloc)  # Example call - domain only
+            ssl_mismatch_score = self.ssl_mismatch_detector.detect_mismatch(url, domain_features.get('ssl_info'))  # Example call
+            ui_clone_score = self.ui_clone_detector.detect_clone(url, domain_features.get('screenshot_path'))  # Example call - need screenshot path later
 
-        # Combine scores (you'll need to define a proper aggregation strategy)
-        overall_threat_score = (content_score + behavior_score +
-                                ssl_mismatch_score + ui_clone_score) / 4.0  # Simple average for now
+            # Combine scores (you'll need to define a proper aggregation strategy)
+            overall_threat_score = (content_score + behavior_score + ssl_mismatch_score + ui_clone_score) / 4.0  # Simple average for now
 
-        return {
-            'threat_score': float(overall_threat_score),
-            'features': domain_features
-        }
+            return {
+                'threat_score': float(overall_threat_score),
+                'features': domain_features
+            }
+        except Exception as e:
+            logger.error(f"Error analyzing domain {url}: {str(e)}")
+            return {'error': 'An error occurred during domain analysis.'}
 
     def _get_registration_age(self, url):
         """Get domain registration age in days."""

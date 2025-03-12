@@ -4,6 +4,10 @@ from .models import PhishingDomain, DetectionLog
 from .serializers import PhishingDomainSerializer
 from .task import analyze_domain_task
 from django.http import HttpResponse
+import logging
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 def homepage(request):
@@ -15,19 +19,23 @@ class DomainListCreateAPI(generics.ListCreateAPIView):
     serializer_class = PhishingDomainSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            {
-                'status': 'pending',
-                'message': 'Analysis started',
-                'data': serializer.data
-            },
-            status=status.HTTP_202_ACCEPTED,
-            headers=headers
-        )
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                {
+                    'status': 'pending',
+                    'message': 'Analysis started',
+                    'data': serializer.data
+                },
+                status=status.HTTP_202_ACCEPTED,
+                headers=headers
+            )
+        except Exception as e:
+            logger.error(f"Error in DomainListCreateAPI.create: {str(e)}")
+            return Response({'error': 'An error occurred while processing your request.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -61,25 +69,29 @@ class DomainDetectionAPI(generics.GenericAPIView):
     serializer_class = PhishingDomainSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        url = serializer.validated_data['url']
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            url = serializer.validated_data['url']
 
-        # Check if domain already exists
-        if PhishingDomain.objects.filter(url=url).exists():
+            # Check if domain already exists
+            if PhishingDomain.objects.filter(url=url).exists():
+                return Response(
+                    {'error': 'This domain is already being analyzed'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            domain = serializer.save()
+            analyze_domain_task.delay(domain.url)
+
             return Response(
-                {'error': 'This domain is already being analyzed'},
-                status=status.HTTP_400_BAD_REQUEST
+                {
+                    'status': 'pending',
+                    'message': 'Analysis started',
+                    'domain_id': domain.id
+                },
+                status=status.HTTP_202_ACCEPTED
             )
-
-        domain = serializer.save()
-        analyze_domain_task.delay(domain.url)
-
-        return Response(
-            {
-                'status': 'pending',
-                'message': 'Analysis started',
-                'domain_id': domain.id
-            },
-            status=status.HTTP_202_ACCEPTED
-        )
+        except Exception as e:
+            logger.error(f"Error in DomainDetectionAPI.post: {str(e)}")
+            return Response({'error': 'An error occurred while processing your request.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
