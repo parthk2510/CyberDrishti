@@ -1,0 +1,42 @@
+.forecast-container {
+    background: #292929;
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 350px;
+    margin: 2rem auto;
+    transition: transform 0.3s ease;
+}
+
+.forecast-container:hover {
+    transform: scale(1.03);
+}
+
+.forecast-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.forecast-stats {
+    text-align: left;
+}
+
+h3 {
+    color: #FFEB3B;
+}
+
+h4 {
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+}
+
+.counter {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+}

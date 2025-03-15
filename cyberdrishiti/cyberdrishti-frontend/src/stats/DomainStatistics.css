@@ -1,0 +1,60 @@
+.domain-stats-container {
+    background: linear-gradient(135deg, #1e1e1e, #292929);
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 450px;
+    margin: 2rem auto;
+    transition: transform 0.3s ease;
+}
+
+.domain-stats-container:hover {
+    transform: scale(1.03);
+}
+
+h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    background: -webkit-linear-gradient(45deg, #4CAF50, #8BC34A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stats-section {
+    background: #2a2a2a;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.15);
+}
+
+h4 {
+    color: #4CAF50;
+    margin-bottom: 0.8rem;
+}
+
+.stats-item, .status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: #333;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    transition: background 0.3s ease;
+}
+
+.stats-item:hover, .status-item:hover {
+    background-color: #4CAF50;
+}
+
+.icon {
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+.pending { border-left: 5px solid #FFA500; }
+.blocked { border-left: 5px solid #FF0000; }
+.whitelisted { border-left: 5px solid #00FF00; }

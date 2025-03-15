@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Auth.css";
+import "./styles/Auth.css";
 import { motion, AnimatePresence } from "framer-motion"; 
 import Squares from "../components/Squares";
 import DecryptedText from "../components/DecryptedText";

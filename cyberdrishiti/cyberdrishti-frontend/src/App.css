@@ -1,0 +1,16 @@
+.content {
+    margin-top: 56px; /*Offset for the fixed header */
+    padding: 20px;
+    background-color: #121212;
+    min-height: 100vh;
+    color: #fff;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.expanded + .content {
+    margin-left: 240px; /* Space for expanded sidebar */
+}
+
+.sidebar.collapsed + .content {
+    margin-left: 80px; /* Space for collapsed sidebar */
+}

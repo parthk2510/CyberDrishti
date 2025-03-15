@@ -1,0 +1,10 @@
+.feature-container {
+    background: #292929;
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 400px;
+    margin: 2rem auto;
+}

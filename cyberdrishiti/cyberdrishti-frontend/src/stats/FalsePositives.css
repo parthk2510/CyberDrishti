@@ -1,0 +1,24 @@
+.false-positives-container {
+    background: #292929;
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    width: 350px;
+    margin: 2rem auto;
+}
+
+.stats {
+    margin-top: 1rem;
+}
+
+.stats p {
+    font-size: 18px;
+    margin: 0.5rem 0;
+}
+
+.stats span {
+    font-weight: bold;
+    color: #FFA726;
+}
