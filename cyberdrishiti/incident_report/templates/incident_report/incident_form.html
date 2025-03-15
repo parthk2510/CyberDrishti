@@ -1,0 +1,227 @@
+{% extends 'incident_report/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Incident Report Form{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1 class="text-center">Incident Reporting Form</h1>
+    </div>
+    
+    <form method="post" novalidate>
+        {% csrf_token %}
+        
+        <!-- Reporter Information Section -->
+        <div class="section-header">
+            <h4 class="mb-0">Contact Information of the Reporter</h4>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="required-field">I am:</label>
+                <div class="mt-2">
+                    {{ form.reporter_type|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="required-field">{{ form.name_role.label }}</label>
+                {{ form.name_role|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.reporter_identity.label }}</label>
+                <div class="mt-2">
+                    {{ form.reporter_identity|as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>{{ form.organization_name.label }}</label>
+                {{ form.organization_name|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="required-field">{{ form.contact_no.label }}</label>
+                {{ form.contact_no|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label class="required-field">{{ form.email.label }}</label>
+                {{ form.email|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="required-field">{{ form.address.label }}</label>
+                {{ form.address|as_crispy_field }}
+            </div>
+        </div>
+        
+        <!-- Basic Incident Details Section -->
+        <div class="section-header">
+            <h4 class="mb-0">Basic Incident Details</h4>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label>{{ form.affected_entity.label }}</label>
+                {{ form.affected_entity|as_crispy_field }}
+            </div>
+        </div>
+        
+        <!-- Incident Type Section -->
+        <div class="section-header">
+            <h4 class="mb-0">Incident Type</h4>
+        </div>
+        
+        <div class="checkbox-group mb-3">
+            {% for incident_code, incident_label in form.INCIDENT_TYPES %}
+                <div class="checkbox-item">
+                    <input type="checkbox" name="{{ incident_code }}" id="id_{{ incident_code }}" 
+                           {% if form.data.incident_code %}checked{% endif %}>
+                    <label for="id_{{ incident_code }}">{{ incident_label }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label>{{ form.other_incident_details.label }}</label>
+                {{ form.other_incident_details|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="required-field">{{ form.is_critical.label }}</label>
+                {{ form.is_critical|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.critical_details.label }}</label>
+                {{ form.critical_details|as_crispy_field }}
+            </div>
+        </div>
+        
+        <!-- System Information Section -->
+        <div class="section-header">
+            <h4 class="mb-0">Basic Information of Affected System</h4>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="required-field">{{ form.system_info.label }}</label>
+                {{ form.system_info|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>{{ form.domain_url.label }}</label>
+                {{ form.domain_url|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.ip_address.label }}</label>
+                {{ form.ip_address|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>{{ form.operating_system.label }}</label>
+                {{ form.operating_system|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.make_model.label }}</label>
+                {{ form.make_model|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>{{ form.app_details.label }}</label>
+                {{ form.app_details|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.location.label }}</label>
+                {{ form.location|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label>{{ form.isp_info.label }}</label>
+                {{ form.isp_info|as_crispy_field }}
+            </div>
+        </div>
+        
+        <!-- Incident Description Section -->
+        <div class="section-header">
+            <h4 class="mb-0">Brief description of Incident</h4>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="required-field">{{ form.incident_description.label }}</label>
+                {{ form.incident_description|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label>{{ form.occurrence_date.label }}</label>
+                {{ form.occurrence_date|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                <label>{{ form.detection_date.label }}</label>
+                {{ form.detection_date|as_crispy_field }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-12">
+                <p class="text-muted small">
+                    <strong>Note:</strong><br>
+                    (i) This form provides flexibility in terms of information which could be relevant to the incident.<br>
+                    (ii) It is mandatory to fill and/or sign this form. Incidents may also be reported by providing relevant information in the communication<br>
+                    (iii) Reporting entity may, if desired, also provide relevant information other than mentioned in this form.
+                </p>
+            </div>
+        </div>
+        
+        <div class="d-grid gap-2 col-md-6 mx-auto">
+            <button type="submit" class="btn btn-primary btn-lg">Submit Incident Report</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Show/hide other incident details field based on "Other" checkbox
+    document.addEventListener('DOMContentLoaded', function() {
+        const otherCheckbox = document.getElementById('id_other');
+        const otherDetailsField = document.getElementById('div_id_other_incident_details');
+        
+        function toggleOtherDetails() {
+            if (otherCheckbox.checked) {
+                otherDetailsField.style.display = 'block';
+            } else {
+                otherDetailsField.style.display = 'none';
+            }
+        }
+        
+        // Initial state
+        toggleOtherDetails();
+        
+        // Add event listener
+        otherCheckbox.addEventListener('change', toggleOtherDetails);
+    });
+</script>
+{% endblock %} 

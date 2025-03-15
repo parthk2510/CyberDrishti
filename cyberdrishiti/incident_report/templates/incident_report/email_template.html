@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-title {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field-label {
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Incident Report #{{ report.id }}</h1>
+            <p>Submitted on: {{ report.created_at|date:"F j, Y, g:i a" }}</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Reporter Information</h2>
+            
+            <div class="field">
+                <div class="field-label">Reporter Type:</div>
+                <div>{% if report.reporter_type == 'affected_entity' %}The affected entity{% else %}Reporting incident affecting other entity{% endif %}</div>
+            </div>
+            
+            <div class="field">
+                <div class="field-label">Reporter Identity:</div>
+                <div>{% if report.reporter_identity == 'individual' %}Individual{% else %}Organization{% endif %}</div>
+            </div>
+            
+            <div class="field">
+                <div class="field-label">Name & Role/Title:</div>
+                <div>{{ report.name_role }}</div>
+            </div>
+            
+            {% if report.organization_name %}
+            <div class="field">
+                <div class="field-label">Organization name:</div>
+                <div>{{ report.organization_name }}</div>
+            </div>
+            {% endif %}
+            
+            <div class="field">
+                <div class="field-label">Contact No.:</div>
+                <div>{{ report.contact_no }}</div>
+            </div>
+            
+            <div class="field">
+                <div class="field-label">Email:</div>
+                <div>{{ report.email }}</div>
+            </div>
+            
+            <div class="field">
+                <div class="field-label">Address:</div>
+                <div>{{ report.address }}</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Basic Incident Details</h2>
+            
+            {% if report.affected_entity %}
+            <div class="field">
+                <div class="field-label">Affected entity (if not same as reporting entity):</div>
+                <div>{{ report.affected_entity }}</div>
+            </div>
+            {% endif %}
+            
+            <div class="field">
+                <div class="field-label">Incident Type:</div>
+                <div>
+                    <ul>
+                        {% for incident_type in incident_types %}
+                            <li>{{ incident_type }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            
+            {% if report.other_incident_details %}
+            <div class="field">
+                <div class="field-label">Other incident details:</div>
+                <div>{{ report.other_incident_details }}</div>
+            </div>
+            {% endif %}
+            
+            <div class="field">
+                <div class="field-label">Is the affected system/network critical to the organization's mission?:</div>
+                <div>{{ report.is_critical }}</div>
+            </div>
+            
+            {% if report.critical_details %}
+            <div class="field">
+                <div class="field-label">Critical details:</div>
+                <div>{{ report.critical_details }}</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Basic Information of Affected System</h2>
+            
+            <div class="field">
+                <div class="field-label">System Information:</div>
+                <div>{{ report.system_info }}</div>
+            </div>
+            
+            {% if report.domain_url %}
+            <div class="field">
+                <div class="field-label">Domain/URL:</div>
+                <div>{{ report.domain_url }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.ip_address %}
+            <div class="field">
+                <div class="field-label">IP Address:</div>
+                <div>{{ report.ip_address }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.operating_system %}
+            <div class="field">
+                <div class="field-label">Operating System:</div>
+                <div>{{ report.operating_system }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.make_model %}
+            <div class="field">
+                <div class="field-label">Make/Model/Cloud details:</div>
+                <div>{{ report.make_model }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.app_details %}
+            <div class="field">
+                <div class="field-label">Affected Application details:</div>
+                <div>{{ report.app_details }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.location %}
+            <div class="field">
+                <div class="field-label">Location of affected system:</div>
+                <div>{{ report.location }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.isp_info %}
+            <div class="field">
+                <div class="field-label">Network and name of ISP:</div>
+                <div>{{ report.isp_info }}</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Incident Description</h2>
+            
+            <div class="field">
+                <div class="field-label">Brief description of Incident:</div>
+                <div>{{ report.incident_description }}</div>
+            </div>
+            
+            {% if report.occurrence_date %}
+            <div class="field">
+                <div class="field-label">Occurrence date & time:</div>
+                <div>{{ report.occurrence_date|date:"F j, Y, g:i a" }}</div>
+            </div>
+            {% endif %}
+            
+            {% if report.detection_date %}
+            <div class="field">
+                <div class="field-label">Detection date & time:</div>
+                <div>{{ report.detection_date|date:"F j, Y, g:i a" }}</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>This is an automated email sent from the Incident Reporting System.</p>
+            <p>Please do not reply to this email.</p>
+        </div>
+    </div>
+</body>
+</html> 

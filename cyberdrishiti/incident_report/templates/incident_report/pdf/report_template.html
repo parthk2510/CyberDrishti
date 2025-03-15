@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+{% load incident_report_extras %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Incident Report #{{ report.id }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        .header h1 {
+            font-size: 16pt;
+            margin: 0;
+            padding: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .section-header {
+            background-color: #ccc;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+        }
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        .checkbox {
+            margin-right: 5px;
+            min-width: 12px;
+            min-height: 12px;
+            border: 1px solid #000;
+            display: inline-block;
+        }
+        .checked {
+            background-color: #000;
+        }
+        .footer {
+            font-size: 9pt;
+            margin-top: 10px;
+        }
+        .note {
+            font-size: 9pt;
+            font-style: italic;
+        }
+        .contact-info {
+            font-size: 9pt;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Incident Reporting Form</h1>
+    </div>
+    
+    <!-- Reporter Type Section -->
+    <table>
+        <tr>
+            <td>I am: 
+                <span class="checkbox {% if report.reporter_type == 'affected_entity' %}checked{% endif %}"></span> the affected entity
+                <span class="checkbox {% if report.reporter_type == 'reporting_other' %}checked{% endif %}"></span> reporting incident affecting other entity
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Contact Information Section -->
+    <table>
+        <tr>
+            <td colspan="3" class="section-header">Contact Information of the Reporter</td>
+        </tr>
+        <tr>
+            <td>Name & Role/Title</td>
+            <td colspan="2">{{ report.name_role }}
+                <span style="float: right;">
+                    <span class="checkbox {% if report.reporter_identity == 'individual' %}checked{% endif %}"></span> Individual
+                    <span class="checkbox {% if report.reporter_identity == 'organization' %}checked{% endif %}"></span> Organization
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>Organization name (if any)</td>
+            <td colspan="2">{{ report.organization_name }}</td>
+        </tr>
+        <tr>
+            <td>Contact No.</td>
+            <td>{{ report.contact_no }}</td>
+            <td>Email: {{ report.email }}</td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td colspan="2">{{ report.address }}</td>
+        </tr>
+    </table>
+    
+    <!-- Basic Incident Details Section -->
+    <table>
+        <tr>
+            <td colspan="2" class="section-header">Basic Incident Details</td>
+        </tr>
+        <tr>
+            <td>Affected entity<br>(if not same as reporting entity above)</td>
+            <td>{{ report.affected_entity }}</td>
+        </tr>
+    </table>
+    
+    <!-- Incident Type Section -->
+    <table>
+        <tr>
+            <td colspan="3" class="section-header">Incident Type</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="checkbox-container">
+                    <!-- Use the incident_types_dict to determine checked state -->
+                    {% for incident_code, incident_label in INCIDENT_TYPES %}
+                    <div class="checkbox-item">
+                        <span class="checkbox {% if incident_types_dict|get_item:incident_code %}checked{% endif %}"></span>
+                        <span>{{ incident_label }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if incident_types_dict.other %}
+                <div>
+                    <strong>Other (Please Specify):</strong> {{ report.other_incident_details }}
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Critical System Section -->
+    <table>
+        <tr>
+            <td>Is the affected system/network critical to the organization's mission? ({{ report.is_critical }})</td>
+        </tr>
+        <tr>
+            <td>Brief details: {{ report.critical_details }}</td>
+        </tr>
+    </table>
+    
+    <!-- System Information Section -->
+    <table>
+        <tr>
+            <td>Basic Information of Affected System<br>(Provide information that is readily available.)</td>
+            <td>
+                Domain/URL: {{ report.domain_url }}<br>
+                IP Address: {{ report.ip_address }}<br>
+                Operating System: {{ report.operating_system }}<br>
+                Make/Model/Cloud details: {{ report.make_model }}<br>
+                Affected Application details (if any): {{ report.app_details }}<br>
+                Location of affected system (including City, Region & Country): {{ report.location }}<br>
+                Network and name of ISP: {{ report.isp_info }}
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Incident Description Section -->
+    <table>
+        <tr>
+            <td>Brief description of incident:</td>
+            <td>
+                {{ report.incident_description }}<br><br>
+                Occurrence date & time (dd/mm/yyyy hh:mm): {% if report.occurrence_date %}{{ report.occurrence_date|date:"d/m/Y H:i" }}{% endif %}<br>
+                Detection date & time (dd/mm/yyyy hh:mm): {% if report.detection_date %}{{ report.detection_date|date:"d/m/Y H:i" }}{% endif %}
+            </td>
+        </tr>
+    </table>
+    
+    <!-- Footer Note -->
+    <div class="note">
+        <strong>Note:</strong> (i) This form provides general guidance in terms of information which could be relevant to the incident.<br>
+        (ii) It is not mandatory to fill and/or sign this form. Incidents may also be reported by providing relevant information in the communication itself or in any other readable form.<br>
+        (iii) Reporting entity may, if desired, also provide relevant information other than mentioned in this form.
+    </div>
+    
+    <div class="contact-info">
+        Mail/Fax incident reports to: CERT-In, Electronics Niketan, CGO Complex, New Delhi 110003 Fax:+91-11-24368546 or email at: incident@cert-in.org.in
+    </div>
+</body>
+</html> 

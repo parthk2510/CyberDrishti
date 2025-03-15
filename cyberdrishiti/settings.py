@@ -81,3 +81,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'core_backend.apps.CoreBackendConfig',  # or just 'core_backend' if you don't have a custom AppConfig
 ] 
+INSTALLED_APPS = [
+    # ... existing apps
+    'rest_framework',  # Add this if not already present
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'incident_report',
+]
+
+# You might also need to add REST Framework settings if they're required
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
