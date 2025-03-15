@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SSL Analysis Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .report-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .score.high {
+            color: #27ae60;
+        }
+        .score.medium {
+            color: #f39c12;
+        }
+        .score.low {
+            color: #e74c3c;
+        }
+        .detail-row {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .detail-label {
+            flex: 1;
+            font-weight: bold;
+        }
+        .detail-value {
+            flex: 2;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        .status.valid {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+        .status.invalid {
+            background-color: #f2dede;
+            color: #a94442;
+        }
+        .back-link {
+            margin-top: 30px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>SSL Certificate Analysis Report</h1>
+    
+    <div class="report-section">
+        <div class="score {% if analysis.validation_score > 0.7 %}high{% elif analysis.validation_score > 0.4 %}medium{% else %}low{% endif %}">
+            Security Score: {{ analysis.validation_score|floatformat:2 }}/1.0
+        </div>
+        
+        {% if analysis.error %}
+            <div class="detail-row">
+                <div class="detail-label">Error:</div>
+                <div class="detail-value">{{ analysis.error }}</div>
+            </div>
+        {% else %}
+            <h2>Certificate Overview</h2>
+            
+            <div class="detail-row">
+                <div class="detail-label">Certificate Valid:</div>
+                <div class="detail-value">
+                    <span class="status {% if analysis.certificate_valid %}valid{% else %}invalid{% endif %}">
+                        {% if analysis.certificate_valid %}Valid{% else %}Invalid{% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">Hostname Match:</div>
+                <div class="detail-value">
+                    <span class="status {% if analysis.hostname_match %}valid{% else %}invalid{% endif %}">
+                        {% if analysis.hostname_match %}Match{% else %}Mismatch{% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="detail-row">
+                <div class="detail-label">TLS Version:</div>
+                <div class="detail-value">
+                    <span class="status {% if analysis.tls_valid %}valid{% else %}invalid{% endif %}">
+                        {{ analysis.cert_details.tls_version }}
+                    </span>
+                </div>
+            </div>
+            
+            {% if analysis.cert_details %}
+                <h2>Certificate Details</h2>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Subject:</div>
+                    <div class="detail-value">
+                        {{ analysis.cert_details.subject.commonname.0 }}
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Issuer:</div>
+                    <div class="detail-value">
+                        {{ analysis.cert_details.issuer.commonname.0 }}
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Validity Status:</div>
+                    <div class="detail-value">
+                        <span class="status {% if analysis.cert_details.validity_status == 'valid' %}valid{% else %}invalid{% endif %}">
+                            {{ analysis.cert_details.validity_status|upper }}
+                        </span>
+                    </div>
+                </div>
+                
+                {% if analysis.cert_details.tls_warning %}
+                    <div class="detail-row">
+                        <div class="detail-label">Security Warning:</div>
+                        <div class="detail-value">
+                            <span class="status invalid">
+                                {{ analysis.cert_details.tls_warning }}
+                            </span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    
+    <a href="{% url 'analyze_ssl' %}" class="back-link">Analyze Another URL</a>
+</body>
+</html> 
