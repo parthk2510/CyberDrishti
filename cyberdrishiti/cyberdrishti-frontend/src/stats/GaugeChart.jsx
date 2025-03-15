@@ -27,29 +27,26 @@ const GaugeChart = ({ label, value, color }) => {
 
         svg.append('text')
             .attr('x', width / 2)
-            .attr('y', height / 2 + 10)
+            .attr('y', height / 2 - 15)  // Raised % value text
             .attr('text-anchor', 'middle')
-            .text(`${value}%`)
-            .style('fill', '#ffffff')
-            .style('font-size', '20px')
-            .style('font-weight', 'bold');
+            .attr('id', 'gauge-value')
+            .text(`${value}%`);
 
         svg.append('text')
             .attr('x', width / 2)
-            .attr('y', height - 10)
+            .attr('y', height - 5)
             .attr('text-anchor', 'middle')
-            .text(label)
-            .style('fill', '#ffffff')
-            .style('font-size', '14px');
+            .attr('id', 'gauge-label')
+            .text(label);
     }, [value, color]);
 
     return <svg ref={gaugeRef}></svg>;
 };
 
 const ModelAccuracy = () => (
-    <div className="gauge-container">
-        <h3>🎯 Model Accuracy</h3>
-        <div className="gauge-charts">
+    <div id="gauge-container">
+        <h3 id="gauge-title">🎯 Model Accuracy</h3>
+        <div id="gauge-charts">
             <GaugeChart label="Precision" value={94.2} color="#4CAF50" />
             <GaugeChart label="Recall" value={91.8} color="#FFA726" />
         </div>

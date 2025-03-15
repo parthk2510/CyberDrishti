@@ -1,10 +1,68 @@
-.phishing-chart-container {
+/* ======================= */
+/* PHISHING CHART CONTAINER */
+/* ======================= */
+#phishing-chart-container {
     background-color: #1a1a1a;
     color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
-    text-align: center;
-    width: 400px;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+    max-width: 500px;
     margin: 2rem auto;
+    text-align: center;
+}
+
+.phishing-chart-title {
+    font-size: 1.8rem;
+    color: #66bb6a;
+    margin-bottom: 1.5rem;
+}
+
+#phishing-chart-svg {
+    background-color: #292929;
+    border-radius: 12px;
+    border: 2px solid #4CAF50;
+}
+
+.phishing-bar {
+    fill: #4CAF50;
+    transition: fill 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.phishing-bar:hover {
+    fill: #81C784;
+    cursor: pointer;
+}
+
+.phishing-bar-value {
+    font-size: 14px;
+    fill: #ffffff;
+    font-weight: bold;
+}
+
+#phishing-chart-axis text {
+    fill: #ffffff;
+}
+
+#phishing-chart-axis path,
+#phishing-chart-axis line {
+    stroke: #66bb6a;
+    stroke-width: 2;
+}
+
+/* ======================= */
+/* RESPONSIVE DESIGN */
+/* ======================= */
+@media (max-width: 600px) {
+    #phishing-chart-container {
+        padding: 1.5rem;
+    }
+
+    .phishing-bar-value {
+        font-size: 12px;
+    }
+
+    #phishing-chart-axis text {
+        font-size: 10px;
+    }
 }

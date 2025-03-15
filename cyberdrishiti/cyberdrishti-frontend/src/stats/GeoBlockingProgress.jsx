@@ -14,6 +14,16 @@ const GeoBlockingProgress = () => {
             .attr('width', width)
             .attr('height', height);
 
+        // Background circle (Grey)
+        svg.append('circle')
+            .attr('cx', width / 2)
+            .attr('cy', height / 2)
+            .attr('r', 90)
+            .attr('fill', 'none')
+            .attr('stroke', '#666')
+            .attr('stroke-width', 15);
+
+        // Progress Arc (Green)
         const arc = d3.arc()
             .innerRadius(70)
             .outerRadius(90)
@@ -25,6 +35,7 @@ const GeoBlockingProgress = () => {
             .attr('fill', '#4CAF50')
             .attr('transform', `translate(${width / 2}, ${height / 2})`);
 
+        // Percentage Text
         svg.append('text')
             .attr('x', width / 2)
             .attr('y', height / 2 + 10)
@@ -37,7 +48,7 @@ const GeoBlockingProgress = () => {
 
     return (
         <div className="geo-container">
-            <h3>🌍 Geo-Blocking Effectiveness (India)</h3>
+            <h3 className="geo-title">🌍 Geo-Blocking Effectiveness (India)</h3>
             <svg ref={circleRef}></svg>
         </div>
     );

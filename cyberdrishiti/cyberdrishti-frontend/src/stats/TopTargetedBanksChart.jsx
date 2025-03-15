@@ -32,6 +32,7 @@ const TopTargetedBanksChart = () => {
         const chart = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+        // Bars
         chart.selectAll('.bar')
             .data(data)
             .enter()
@@ -45,21 +46,35 @@ const TopTargetedBanksChart = () => {
             .duration(1000)
             .attr('width', d => xScale(d.cases));
 
+        // Data Labels Inside Bars
         chart.selectAll('.label')
             .data(data)
             .enter()
             .append('text')
             .attr('class', 'label')
             .attr('y', d => yScale(d.bank) + yScale.bandwidth() / 2)
-            .attr('x', d => xScale(d.cases) - 30)
+            .attr('x', d => xScale(d.cases) - 40)
             .attr('dy', '0.35em')
             .attr('fill', '#ffffff')
             .text(d => `${d.cases}`);
+
+        // Bank Names (Ensuring All Data Visible)
+        chart.selectAll('.bank-label')
+            .data(data)
+            .enter()
+            .append('text')
+            .attr('class', 'bank-label')
+            .attr('x', -10)
+            .attr('y', d => yScale(d.bank) + yScale.bandwidth() / 2)
+            .attr('dy', '0.35em')
+            .attr('text-anchor', 'end')
+            .attr('fill', '#ffffff')
+            .text(d => d.bank);
     }, []);
 
     return (
-        <div className="chart-container">
-            <h3>Top Targeted Banks (Phishing Cases)</h3>
+        <div id="chart-container">
+            <h3 id="chart-title">Top Targeted Banks (Phishing Cases)</h3>
             <svg ref={chartRef}></svg>
         </div>
     );

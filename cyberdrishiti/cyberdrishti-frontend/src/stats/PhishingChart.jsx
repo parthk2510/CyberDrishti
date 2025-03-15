@@ -13,6 +13,7 @@ const PhishingChart = () => {
         ];
 
         const svg = d3.select(chartRef.current)
+            .attr('id', 'phishing-chart-svg')
             .attr('width', 400)
             .attr('height', 300);
 
@@ -27,38 +28,40 @@ const PhishingChart = () => {
 
         const chartGroup = svg.append('g').attr('transform', 'translate(30, 20)');
 
-        chartGroup.selectAll('rect')
+        chartGroup.selectAll('.phishing-bar')
             .data(data)
             .enter()
             .append('rect')
+            .attr('class', 'phishing-bar')
             .attr('x', d => xScale(d.period))
             .attr('y', d => yScale(d.value))
             .attr('width', xScale.bandwidth())
-            .attr('height', d => 250 - yScale(d.value))
-            .attr('fill', '#4CAF50');
+            .attr('height', d => 250 - yScale(d.value));
 
-        chartGroup.selectAll('text')
+        chartGroup.selectAll('.phishing-bar-value')
             .data(data)
             .enter()
             .append('text')
+            .attr('class', 'phishing-bar-value')
             .attr('x', d => xScale(d.period) + xScale.bandwidth() / 2)
             .attr('y', d => yScale(d.value) - 5)
             .attr('text-anchor', 'middle')
-            .attr('fill', '#ffffff')
             .text(d => d.value);
 
         svg.append('g')
+            .attr('id', 'phishing-chart-axis')
             .attr('transform', 'translate(30, 270)')
             .call(d3.axisBottom(xScale));
 
         svg.append('g')
+            .attr('id', 'phishing-chart-axis')
             .attr('transform', 'translate(30, 20)')
             .call(d3.axisLeft(yScale).ticks(5));
     }, []);
 
     return (
-        <div className="phishing-chart-container">
-            <h3>No. of Phishing Websites Detected</h3>
+        <div id="phishing-chart-container">
+            <h3 className="phishing-chart-title">No. of Phishing Websites Detected</h3>
             <svg ref={chartRef}></svg>
         </div>
     );

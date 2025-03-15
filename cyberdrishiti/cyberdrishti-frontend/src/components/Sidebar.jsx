@@ -15,9 +15,9 @@ const Sidebar = ({ isOpen }) => {
             <NavLink to="/website-reconnaissance" className="nav-item">
                 <FaGlobe /> {isOpen && 'Website Reconnaissance'}
             </NavLink>
-            <NavLink to="/seo-ranking" className="nav-item">
+            {/* <NavLink to="/seo-ranking" className="nav-item">
                 <FaChartLine /> {isOpen && 'SEO Ranking'}
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/report-page" className="nav-item">
                 <FaFileAlt /> {isOpen && 'Report Page'}
             </NavLink>

@@ -1,21 +1,49 @@
-.attack-vector-container {
-    background: #292929;
+#attack-vector-container {
+    background-color: #1a1a1a;
     color: #ffffff;
-    padding: 1.5rem;
+    border: 2px solid #4CAF50;
     border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 400px;
     text-align: center;
-    width: 350px;
-    margin: 1rem auto;
-    transition: transform 0.3s ease;
 }
 
-.attack-vector-container:hover {
-    transform: scale(1.03);
+.attack-vector-title {
+    font-size: 1.5rem;
+    color: #66bb6a;
+    margin-bottom: 1.5rem;
 }
 
-h3 {
-    color: #FFEB3B;
-    text-align: center;
-    margin-bottom: 1rem;
+.attack-vector-legend {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.legend-label {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#attack-vector-chart {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    display: block;
+    margin: 0 auto;
 }

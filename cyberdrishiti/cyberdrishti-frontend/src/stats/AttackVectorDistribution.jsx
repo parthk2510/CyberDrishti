@@ -17,6 +17,7 @@ const AttackVectorDistribution = () => {
         const radius = Math.min(width, height) / 2;
 
         const svg = d3.select(chartRef.current)
+            .attr('id', 'attack-vector-chart')
             .attr('width', width)
             .attr('height', height)
             .append('g')
@@ -51,16 +52,34 @@ const AttackVectorDistribution = () => {
             .append('text')
             .attr('transform', d => `translate(${arc.centroid(d)})`)
             .attr('text-anchor', 'middle')
-            .text(d => `${d.data.label}: ${d.data.value}%`)
+            .text(d => `${d.data.value}%`)
             .style('fill', '#ffffff')
             .style('font-size', '12px')
             .style('font-weight', 'bold');
     }, []);
 
     return (
-        <div className="attack-vector-container">
-            <h3>🔎 Attack Vector Distribution</h3>
+        <div id="attack-vector-container">
+            <h3 className="attack-vector-title">🔎 Attack Vector Distribution</h3>
             <svg ref={chartRef}></svg>
+
+            {/* Legend for Better Understanding */}
+            <div className="attack-vector-legend">
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#FF5252' }}></div>
+                    <span className="legend-label">SMS Phishing</span>
+                </div>
+
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#FFA726' }}></div>
+                    <span className="legend-label">Fake Apps</span>
+                </div>
+
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#4CAF50' }}></div>
+                    <span className="legend-label">Cloned Websites</span>
+                </div>
+            </div>
         </div>
     );
 };

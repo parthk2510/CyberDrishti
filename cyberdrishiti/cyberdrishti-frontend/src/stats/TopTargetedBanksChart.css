@@ -1,28 +1,29 @@
-.chart-container {
-    background: linear-gradient(135deg, #1a1a1a, #292929);
-    color: #ffffff;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+#chart-container {
+    background-color: #121212; 
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+#chart-title {
+    color: #FFA726; 
+    margin-bottom: 15px;
     text-align: center;
-    width: 450px;
-    margin: 2rem auto;
-    transition: transform 0.3s ease;
-}
-
-.chart-container:hover {
-    transform: scale(1.03);
-}
-
-h3 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    background: -webkit-linear-gradient(45deg, #e53935, #f57c00, #43a047);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: bold;
 }
 
 .bar {
-    rx: 6;
-    ry: 6;
+    rx: 5px; /* Rounded bar edges */
+}
+
+.label {
+    fill: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.bank-label {
+    fill: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
 }

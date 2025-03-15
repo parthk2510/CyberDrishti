@@ -7,9 +7,9 @@ const ThreatSeverityChart = () => {
 
     useEffect(() => {
         const data = [
-            { label: 'Critical', value: 45, color: '#e53935' }, // Red for Critical
-            { label: 'High', value: 30, color: '#f57c00' },     // Orange for High
-            { label: 'Medium', value: 25, color: '#43a047' }    // Green for Medium
+            { label: 'Critical', value: 45, color: '#e53935' },
+            { label: 'High', value: 30, color: '#f57c00' },
+            { label: 'Medium', value: 25, color: '#43a047' }
         ];
 
         const width = 300;
@@ -23,7 +23,7 @@ const ThreatSeverityChart = () => {
             .attr('transform', `translate(${width / 2}, ${height / 2})`);
 
         const pie = d3.pie().value(d => d.value);
-        const arc = d3.arc().innerRadius(0).outerRadius(radius);
+        const arc = d3.arc().innerRadius(70).outerRadius(radius);
 
         svg.selectAll('path')
             .data(pie(data))
@@ -44,10 +44,10 @@ const ThreatSeverityChart = () => {
             .data(pie(data))
             .enter()
             .append('text')
-            .attr('transform', d => `translate(${arc.centroid(d)})`)
+            .attr('transform', d => `translate(${arc.centroid(d)[0] * 0.8}, ${arc.centroid(d)[1] * 0.8})`)
             .attr('text-anchor', 'middle')
             .attr('dy', '0.35em')
-            .text(d => `${d.data.label}: ${d.data.value}%`)
+            .text(d => `${d.data.value}%`)
             .style('fill', '#fff')
             .style('font-weight', 'bold')
             .style('font-size', '14px');
@@ -55,8 +55,22 @@ const ThreatSeverityChart = () => {
 
     return (
         <div className="chart-container">
-            <h3>Threat Severity Distribution</h3>
+            <h3>🔥 Threat Severity Distribution</h3>
             <svg ref={chartRef}></svg>
+            <div className="legend">
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#e53935' }}></div>
+                    <span>Critical</span>
+                </div>
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#f57c00' }}></div>
+                    <span>High</span>
+                </div>
+                <div className="legend-item">
+                    <div className="legend-color" style={{ backgroundColor: '#43a047' }}></div>
+                    <span>Medium</span>
+                </div>
+            </div>
         </div>
     );
 };

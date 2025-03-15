@@ -3,9 +3,9 @@ import { FaUniversity, FaPaypal, FaAmazon, FaMousePointer } from 'react-icons/fa
 import './PhishingWebsitesList.css';
 
 const phishingWebsites = [
-    { icon: <FaUniversity />, url: 'secure-banking-login[.]com', impersonating: 'Bank A' },
-    { icon: <FaPaypal />, url: 'paypal-verification[.]info', impersonating: 'PayPal' },
-    { icon: <FaAmazon />, url: 'amazon-refund[.]support', impersonating: 'Amazon' }
+    { icon: <FaUniversity />, url: 'secure-banking-login.com', impersonating: 'Bank A' },
+    { icon: <FaPaypal />, url: 'paypal-verification.info', impersonating: 'PayPal' },
+    { icon: <FaAmazon />, url: 'amazon-refund.support', impersonating: 'Amazon' }
 ];
 
 const clickProneWebsite = {

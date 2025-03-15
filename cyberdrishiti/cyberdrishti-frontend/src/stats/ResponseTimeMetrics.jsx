@@ -30,20 +30,19 @@ const ResponseTimeMetrics = () => {
             .data(gaugeData)
             .enter()
             .append('path')
-            .attr('d', (d, i) => arc({ endAngle: (d.value / 10) * Math.PI }))
-            .attr('fill', d => d.color)
+            .attr('d', (d) => arc({ endAngle: (d.value / 10) * Math.PI }))
+            .attr('fill', (d) => d.color)
             .attr('transform', `translate(${gaugeWidth / 2}, ${gaugeHeight / 2})`);
 
         gaugeSvg.selectAll('text')
             .data(gaugeData)
             .enter()
             .append('text')
+            .attr('class', 'gauge-label')
             .attr('x', gaugeWidth / 2)
             .attr('y', (d, i) => 80 + i * 20)
             .attr('text-anchor', 'middle')
-            .text(d => `${d.label}: ${d.value} hrs`)
-            .style('fill', '#ffffff')
-            .style('font-weight', 'bold');
+            .text((d) => `${d.label}: ${d.value} hrs`);
 
         // Bar Chart (Registrar-Wise Takedown Success Rates)
         const registrarData = [
@@ -61,7 +60,7 @@ const ResponseTimeMetrics = () => {
             .range([0, barWidth - margin.left - margin.right]);
 
         const yScale = d3.scaleBand()
-            .domain(registrarData.map(d => d.registrar))
+            .domain(registrarData.map((d) => d.registrar))
             .range([0, barHeight - margin.top - margin.bottom])
             .padding(0.3);
 
@@ -77,37 +76,47 @@ const ResponseTimeMetrics = () => {
             .enter()
             .append('rect')
             .attr('class', 'bar')
-            .attr('y', d => yScale(d.registrar))
+            .attr('y', (d) => yScale(d.registrar))
             .attr('height', yScale.bandwidth())
             .attr('width', 0)
-            .attr('fill', d => d.color)
+            .attr('fill', (d) => d.color)
             .transition()
             .duration(1000)
-            .attr('width', d => xScale(d.successRate));
+            .attr('width', (d) => xScale(d.successRate));
 
         barGroup.selectAll('.label')
             .data(registrarData)
             .enter()
             .append('text')
-            .attr('class', 'label')
-            .attr('y', d => yScale(d.registrar) + yScale.bandwidth() / 2)
-            .attr('x', d => xScale(d.successRate) - 30)
+            .attr('class', 'bar-label')
+            .attr('y', (d) => yScale(d.registrar) + yScale.bandwidth() / 2)
+            .attr('x', (d) => xScale(d.successRate) - 30)
             .attr('dy', '0.35em')
             .attr('fill', '#ffffff')
-            .text(d => `${d.successRate}%`);
+            .text((d) => `${d.successRate}%`);
     }, []);
 
     return (
         <div className="metrics-container">
-            <h3>Response Time Metrics</h3>
+            <h3 className="metrics-header">Response Time Metrics</h3>
+
             <div className="chart-wrapper">
                 <h4>Average Detection-to-Takedown Time</h4>
                 <svg ref={gaugeRef}></svg>
+                <p className="details-text">
+                    📋 <b>Current Time:</b> 4.2 hrs<br />
+                    🕒 <b>Historical Avg:</b> 6.5 hrs
+                </p>
             </div>
 
             <div className="chart-wrapper">
                 <h4>Registrar-Wise Takedown Success Rates</h4>
                 <svg ref={barChartRef}></svg>
+                <p className="details-text">
+                    ✅ <b>GoDaddy:</b> 92%<br />
+                    ⚠️ <b>Namecheap:</b> 85%<br />
+                    🚫 <b>Google Domains:</b> 78%
+                </p>
             </div>
         </div>
     );
