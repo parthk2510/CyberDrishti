@@ -2,6 +2,7 @@ from django.urls import path
 from rest_framework.documentation import include_docs_urls
 from rest_framework.schemas import get_schema_view
 from . import views
+from .views import ui_similarity_view
 
 schema_view = get_schema_view(title="CyberDrishti API")
 
@@ -19,4 +20,5 @@ urlpatterns = [
     # API Documentation
     path('docs/', include_docs_urls(title='CyberDrishti API')),
     path('schema/', schema_view, name='schema'),
+    path('ui-similarity/', ui_similarity_view, name='ui-similarity'),
 ]

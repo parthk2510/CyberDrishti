@@ -1,3 +1,8 @@
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.http import require_POST
+import shutil
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpResponseBadRequest
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -317,3 +322,36 @@ def analyze_domain(url):
         'is_phishing': domain.is_phishing,
         'score': domain.overall_score
     }
+
+
+@require_POST
+def ui_similarity_view(request):
+    try:
+        original_url = request.POST.get("original_url")
+        phishing_url = request.POST.get("phishing_url")
+        if not original_url or not phishing_url:
+            return JsonResponse({"error": "Both URLs must be provided."}, status=400)
+        temp_dir = tempfile.mkdtemp()
+        original_screenshot_path = os.path.join(
+            temp_dir, "original_screenshot.png")
+        phishing_screenshot_path = os.path.join(
+            temp_dir, "phishing_screenshot.png")
+        path1 = capture_screenshot_from_url(
+            original_url, original_screenshot_path)
+        path2 = capture_screenshot_from_url(
+            phishing_url, phishing_screenshot_path)
+        if not path1 or not path2:
+            shutil.rmtree(temp_dir)
+            return JsonResponse({"error": "Screenshot capture failed. Cannot perform comparison."}, status=500)
+        similarity_percentage, message = compare_ui_elements(
+            path1, path2)
+        shutil.rmtree(temp_dir)
+        return JsonResponse({
+            "original_url": original_url,
+            "phishing_url": phishing_url,
+            "similarity_percentage": similarity_percentage,
+            "message": message
+        })
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
