@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tabler/icons-react": "^3.31.0",
+    "axios": "^1.8.3",
     "d3": "^7.9.0",
     "framer-motion": "^12.5.0",
     "react": "^19.0.0",

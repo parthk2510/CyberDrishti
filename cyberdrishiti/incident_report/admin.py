@@ -1,29 +1,42 @@
 from django.contrib import admin
-from .models import IncidentReport
+from .models import IncidentReport, IncidentAction, IncidentArtifact
+
+class IncidentActionInline(admin.TabularInline):
+    model = IncidentAction
+    extra = 0
+
+class IncidentArtifactInline(admin.TabularInline):
+    model = IncidentArtifact
+    extra = 0
 
 @admin.register(IncidentReport)
 class IncidentReportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name_role', 'email', 'reporter_type', 'created_at')
-    list_filter = ('reporter_type', 'reporter_identity', 'is_critical', 'created_at')
-    search_fields = ('name_role', 'email', 'organization_name', 'affected_entity', 'incident_description')
-    readonly_fields = ('created_at', 'updated_at')
+    list_display = ('title', 'incident_type', 'severity', 'status', 'reported_at', 'affected_domain')
+    list_filter = ('status', 'severity', 'incident_type', 'auto_generated')
+    search_fields = ('title', 'description', 'affected_domain__url')
+    readonly_fields = ('reported_at',)
+    inlines = [IncidentActionInline, IncidentArtifactInline]
+    
     fieldsets = (
-        ('Reporter Information', {
-            'fields': ('reporter_type', 'reporter_identity', 'name_role', 'organization_name', 
-                      'contact_no', 'email', 'address')
+        ('Basic Information', {
+            'fields': ('title', 'description', 'incident_type', 'severity', 'status')
         }),
-        ('Basic Incident Details', {
-            'fields': ('affected_entity', 'incident_types', 'other_incident_details', 
-                      'is_critical', 'critical_details')
+        ('Reporting Information', {
+            'fields': ('reported_by', 'reported_at', 'resolved_at', 'auto_generated')
         }),
-        ('System Information', {
-            'fields': ('system_info', 'domain_url', 'ip_address', 'operating_system', 
-                      'make_model', 'app_details', 'location', 'isp_info')
+        ('Related Data', {
+            'fields': ('affected_domain',)
         }),
-        ('Incident Description', {
-            'fields': ('incident_description', 'occurrence_date', 'detection_date')
-        }),
-        ('Metadata', {
-            'fields': ('created_at', 'updated_at')
-        }),
-    ) 
+    )
+
+@admin.register(IncidentAction)
+class IncidentActionAdmin(admin.ModelAdmin):
+    list_display = ('incident', 'action_time', 'action_by')
+    list_filter = ('action_time',)
+    search_fields = ('incident__title', 'action_taken', 'action_by')
+
+@admin.register(IncidentArtifact)
+class IncidentArtifactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'incident', 'artifact_type', 'uploaded_at')
+    list_filter = ('artifact_type', 'uploaded_at')
+    search_fields = ('name', 'incident__title', 'notes') 

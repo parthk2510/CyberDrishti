@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core_backend.urls')),
+    path('incidents/', include('incident_report.urls')),
 ]
 
 # Add media URL configuration for screenshots

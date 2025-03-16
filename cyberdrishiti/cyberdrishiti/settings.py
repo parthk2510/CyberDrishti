@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core_backend',  # <-- ENSURE THIS LINE IS EXACTLY LIKE THIS
     'celery',
     'corsheaders',
+    'incident_report'
 ]
 
 MIDDLEWARE = [
