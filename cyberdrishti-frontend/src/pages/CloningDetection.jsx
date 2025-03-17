@@ -7,6 +7,7 @@ const CloneDetection = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [method, setMethod] = useState('POST'); // Default to POST
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,19 +15,34 @@ const CloneDetection = () => {
     setError(null);
     setResult(null);
 
-    try {
-      const formData = new FormData();
-      formData.append('original_url', originalURL);
-      formData.append('phishing_url', copyURL);
+    let url = 'http://127.0.0.1:8000/'; // Base URL
 
-      const response = await fetch('/api/ui-similarity/', {
-        method: 'POST',
-        body: formData,
-      });
+    try {
+      let response;
+      if (method === 'POST') {
+        url += 'ui-similarity/';
+        const formData = new FormData();
+        formData.append('original_url', originalURL);
+        formData.append('phishing_url', copyURL);
+
+        response = await fetch(url, {
+          method: 'POST',
+          body: formData,
+        });
+      } else { // GET method
+        url += 'ui-similarity-get/';
+        const encodedOriginalURL = encodeURIComponent(originalURL);
+        const encodedCopyURL = encodeURIComponent(copyURL);
+        url += `?original_url=${encodedOriginalURL}&phishing_url=${encodedCopyURL}`;
+
+        response = await fetch(url, {
+          method: 'GET',
+        });
+      }
 
       let data;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       } else {
         const text = await response.text();
@@ -53,7 +69,9 @@ const CloneDetection = () => {
 
       <form onSubmit={handleSubmit} className="clone-form">
         <div className="input-group">
-          <label htmlFor="original" className="input-label">Original Webpage URL:</label>
+          <label htmlFor="original" className="input-label">
+            Original Webpage URL:
+          </label>
           <input
             type="url"
             id="original"
@@ -64,7 +82,9 @@ const CloneDetection = () => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="copy" className="input-label">Suspected Copy URL:</label>
+          <label htmlFor="copy" className="input-label">
+            Suspected Copy URL:
+          </label>
           <input
             type="url"
             id="copy"
@@ -72,6 +92,14 @@ const CloneDetection = () => {
             onChange={(e) => setCopyURL(e.target.value)}
             required
           />
+        </div>
+
+        <div className="input-group">
+          <label className="input-label">Request Method:</label>
+          <select value={method} onChange={(e) => setMethod(e.target.value)}>
+            <option value="POST">POST</option>
+            <option value="GET">GET</option>
+          </select>
         </div>
 
         <button type="submit" className="clone-submit-btn" disabled={loading}>
