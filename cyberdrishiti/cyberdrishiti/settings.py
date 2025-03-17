@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'core_backend',  # <-- ENSURE THIS LINE IS EXACTLY LIKE THIS
     'celery',
     'corsheaders',
-    'incident_report'
+    'incident_report',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +78,11 @@ WSGI_APPLICATION = 'cyberdrishiti.wsgi.application'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React default port
     "http://127.0.0.1:3000",
+<<<<<<< Updated upstream
     "http://127.0.0.1:3001"
+=======
+    "http://localhost:5173",
+>>>>>>> Stashed changes
 ]
 
 CORS_ALLOW_METHODS = [
