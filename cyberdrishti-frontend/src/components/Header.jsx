@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
+import LogoutButton from './LogoutButton';
 import './Header.css';
 
 const Header = ({ toggleSidebar }) => {
@@ -7,10 +8,6 @@ const Header = ({ toggleSidebar }) => {
 
     const handleProfileClick = () => {
         setShowDropdown(!showDropdown);
-    };
-
-    const handleLogout = () => {
-        console.log("User logged out");
     };
 
     return (
@@ -21,12 +18,7 @@ const Header = ({ toggleSidebar }) => {
             </div>
             <div className="header-right">
                 <div className="profile-container">
-                    <FaUserCircle className="profile-icon" onClick={handleProfileClick} />
-                    {showDropdown && (
-                        <div className="dropdown-menu">
-                            <button onClick={handleLogout}>Logout</button>
-                        </div>
-                    )}
+                <LogoutButton />
                 </div>
             </div>
         </div>

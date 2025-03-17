@@ -1,11 +1,23 @@
-/* Background styling */
-.bg {
-  position: absolute;
-  z-index: -1;
-  height: 100vh;
-  width: 100vw;
-  background: #000; /* Solid black background */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+.bg {
+  position: fixed;  /* Fixed ensures full viewport coverage */
+  top: 0;
+  left: 0;
+  z-index: -1;
+  height: 100dvh;   /* Ensures full height even on mobile browsers */
+  width: 100dvw;    /* Ensures full width */
+  background: #000; /* Solid black background */
+  display: flex;    /* Maintain existing layout */
+}
+
+
 
 /* Main screen setup */
 .auth-screen {
@@ -110,6 +122,19 @@
 .buttons button:hover {
   background-color: #e6e6e6;
 }
+
+.success-message {
+  color: #4CAF50;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #FF5252;
+  text-align: center;
+  margin-top: 10px;
+}
+
 
 /* Fade Animation */
 @keyframes fadeIn {

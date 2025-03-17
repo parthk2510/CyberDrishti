@@ -1,38 +1,58 @@
+/* Sidebar Base Styling */
 .sidebar {
-    background-color: #181818;
-    color: #fff;
-    height: 100vh;
     position: fixed;
-    top: 56px; /* Matches header height */
+    top: 0;
     left: 0;
-    z-index: 10;
-    transition: width 0.3s ease;
-    overflow: hidden;
+    height: 100vh;
+    background-color: #121212;
+    color: #fff;
+    padding: 1rem;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow-y: auto; /* Enables scrolling within the sidebar */
 }
 
+/* Expanded Sidebar */
 .sidebar.expanded {
-    width: 240px; /* Expanded width */
+    width: 250px;
 }
 
+/* Collapsed Sidebar */
 .sidebar.collapsed {
-    width: 80px; /* Collapsed width */
+    width: 80px; 
 }
 
+/* Nav Items */
 .nav-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 16px ;
+    padding: 0.8rem 1rem;
     color: #fff;
     text-decoration: none;
-    transition: background-color 0.3s;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    transition: background 0.3s ease;
 }
 
 .nav-item:hover {
-    background-color: #303030;
+    background: #1f1f1f;
 }
 
+/* Active Link */
 .nav-item.active {
-    background-color: #ff0000;
-    border-left: 5px solid #ff0000;
+    background-color: #e50914;  /* Highlight active page */
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar.expanded {
+        width: 200px;
+    }
 }

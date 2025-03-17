@@ -15,6 +15,7 @@ import Forecasting from '../stats/Forecasting';
 import ModelAccuracy from '../stats/GaugeChart';
 import FalsePositives from '../stats/FalsePositives';
 import FeatureImportanceChart from '../stats/FeatureImportanceChart';
+import Auth from './Auth';
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(false);
