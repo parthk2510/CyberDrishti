@@ -3,13 +3,13 @@ import { FaUniversity, FaPaypal, FaAmazon, FaMousePointer } from 'react-icons/fa
 import './PhishingWebsitesList.css';
 
 const phishingWebsites = [
-    { icon: <FaUniversity />, url: 'secure-banking-login.com', impersonating: 'Bank A' },
-    { icon: <FaPaypal />, url: 'paypal-verification.info', impersonating: 'PayPal' },
-    { icon: <FaAmazon />, url: 'amazon-refund.support', impersonating: 'Amazon' }
+    { icon: <FaUniversity className="bank-icon" />, url: 'secure-banking-login.com', impersonating: 'Bank A' },
+    { icon: <FaPaypal className="paypal-icon" />, url: 'paypal-verification.info', impersonating: 'PayPal' },
+    { icon: <FaAmazon className="amazon-icon" />, url: 'amazon-refund.support', impersonating: 'Amazon' }
 ];
 
 const clickProneWebsite = {
-    icon: <FaMousePointer />,
+    icon: <FaMousePointer className="click-icon" />,
     url: 'fake-login.co',
     clicks: '12,400 clicks in the last 24 hours'
 };
@@ -17,21 +17,21 @@ const clickProneWebsite = {
 const PhishingWebsitesList = () => {
     return (
         <div className="phishing-websites-container">
-            <h3>Top 3 Phishing Websites</h3>
-            <ul className="website-list">
+            <h3 className="section-title">⚠️ Top 3 Phishing Websites</h3>
+            <div className="website-cards">
                 {phishingWebsites.map((site, index) => (
-                    <li key={index} className="website-item">
+                    <div key={index} className="website-card">
                         <div className="icon">{site.icon}</div>
                         <div className="details">
                             <strong>{site.url}</strong>
                             <span>(Impersonating {site.impersonating})</span>
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
 
-            <h3 className="click-prone-title">Click-Prone Phishing Website</h3>
-            <div className="website-item click-prone">
+            <h3 className="section-title">🔥 Click-Prone Phishing Website</h3>
+            <div className="website-card click-prone">
                 <div className="icon">{clickProneWebsite.icon}</div>
                 <div className="details">
                     <strong>{clickProneWebsite.url}</strong>

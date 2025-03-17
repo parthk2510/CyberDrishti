@@ -1,13 +1,10 @@
 .feature-container {
-    background: linear-gradient(135deg, #1a1a1a, #292929);
+    background: #272829;
     color: #ffffff;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
     text-align: center;
-    width: 600px;
-    margin: 2rem auto;
     transition: transform 0.3s ease;
+    margin: 10px;
+    padding: 20px;
 }
 
 .feature-container:hover {

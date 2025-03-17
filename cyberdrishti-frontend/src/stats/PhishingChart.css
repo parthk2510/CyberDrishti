@@ -2,52 +2,88 @@
 /* PHISHING CHART CONTAINER */
 /* ======================= */
 #phishing-chart-container {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
-    max-width: 500px;
-    margin: 2rem auto;
     text-align: center;
-}
-
-.phishing-chart-title {
-    font-size: 1.8rem;
-    color: #66bb6a;
-    margin-bottom: 1.5rem;
-}
-
-#phishing-chart-svg {
-    background-color: #292929;
+    background-color: #121212;
+    border: 2px solid #00d4ff;
     border-radius: 12px;
-    border: 2px solid #4CAF50;
+    padding: 20px;
+    margin: 10px;
 }
 
+/* ======================= */
+/* TITLE STYLING */
+/* ======================= */
+.phishing-chart-title {
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* ======================= */
+/* SVG BACKGROUND */
+/* ======================= */
+#phishing-chart-svg {
+    background: #1E1E1E;
+    border-radius: 8px;
+}
+
+/* ======================= */
+/* PHISHING BARS */
+/* ======================= */
 .phishing-bar {
-    fill: #4CAF50;
-    transition: fill 0.3s ease-in-out, height 0.3s ease-in-out;
+    transition: fill 0.3s ease-in-out, height 0.6s ease-out;
+}
+
+.phishing-bar.low {
+    fill: #4CAF50;  /* Green for Low Values */
+}
+
+.phishing-bar.medium {
+    fill: #FFA726;  /* Orange for Moderate Values */
+}
+
+.phishing-bar.high {
+    fill: #FF5252;  /* Red for High Values */
 }
 
 .phishing-bar:hover {
-    fill: #81C784;
+    opacity: 0.8;
     cursor: pointer;
 }
 
-.phishing-bar-value {
+/* ======================= */
+/* TOOLTIP DESIGN */
+/* ======================= */
+.tooltip {
+    position: absolute;
+    background-color: #1E1E1E;
+    color: #fff;
+    padding: 6px 10px;
+    border: 1px solid #00d4ff;
+    border-radius: 6px;
     font-size: 14px;
-    fill: #ffffff;
+    pointer-events: none;
+}
+
+/* ======================= */
+/* VALUE LABELS */
+/* ======================= */
+.phishing-bar-value {
+    fill: #fff;
     font-weight: bold;
+    font-size: 14px;
+}
+
+/* ======================= */
+/* AXIS DESIGN */
+/* ======================= */
+#phishing-chart-axis path,
+#phishing-chart-axis line {
+    stroke: #ffffff;
 }
 
 #phishing-chart-axis text {
     fill: #ffffff;
-}
-
-#phishing-chart-axis path,
-#phishing-chart-axis line {
-    stroke: #66bb6a;
-    stroke-width: 2;
 }
 
 /* ======================= */
@@ -58,11 +94,25 @@
         padding: 1.5rem;
     }
 
+    .phishing-chart-title {
+        font-size: 1.5rem;
+    }
+
     .phishing-bar-value {
         font-size: 12px;
     }
 
     #phishing-chart-axis text {
         font-size: 10px;
+    }
+
+    #phishing-chart-svg {
+        width: 100%;
+        height: auto;
+    }
+
+    .tooltip {
+        font-size: 12px;
+        padding: 4px 8px;
     }
 }

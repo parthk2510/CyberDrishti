@@ -1,16 +1,14 @@
 /* Sidebar Base Styling */
 .sidebar {
     position: fixed;
-    top: 0;
     left: 0;
-    height: 100vh;
-    background-color: #121212;
-    color: #fff;
-    padding: 1rem;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.7);
-    z-index: 100;
-    transition: width 0.3s ease, transform 0.3s ease;
-    overflow-y: auto; /* Enables scrolling within the sidebar */
+    top: 64px; /* Height of header */
+    bottom: 0;
+    background-color: #000;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    white-space: nowrap;
+    z-index: 1000;
 }
 
 /* Expanded Sidebar */
@@ -20,30 +18,34 @@
 
 /* Collapsed Sidebar */
 .sidebar.collapsed {
-    width: 80px; 
+    width: 80px;
 }
 
 /* Nav Items */
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 0.8rem 1rem;
-    color: #fff;
+    padding: 15px 20px;
+    color: #ffffff;
     text-decoration: none;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .nav-item:hover {
-    background: #1f1f1f;
+    background-color: #2c2c2c;
 }
 
 /* Active Link */
 .nav-item.active {
-    background-color: #e50914;  /* Highlight active page */
-    color: #fff;
+    background-color: #2c2c2c;
+    border-left: 4px solid #007bff;
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+    min-width: 20px;
 }
 
 /* Responsive Design */

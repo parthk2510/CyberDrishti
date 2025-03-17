@@ -1,82 +1,45 @@
-/* ======================= */
-/* DOMAIN STATISTICS CONTAINER */
-/* ======================= */
 #domain-stats-container {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    border: 2px solid #4CAF50;
-    border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 500px;
     text-align: center;
+    padding: 20px;
+    margin: 10px;
 }
 
-.domain-stats-title {
-    font-size: 1.8rem;
-    color: #66bb6a;
-    margin-bottom: 1.5rem;
-}
-
-/* ======================= */
-/* D3 CHART STYLES */
-/* ======================= */
-.chart-title {
-    fill: #FFA726;
+#domain-stats-title {
+    font-size: 28px;
     font-weight: bold;
-    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #00d4ff;
 }
 
-.chart-value {
-    fill: #ffffff;
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.change-indicator {
-    fill: #66bb6a;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-/* ======================= */
-/* LEGEND STYLES */
-/* ======================= */
-.legend-container {
+#counter-grid {
     display: flex;
-    justify-content: center;
     gap: 20px;
-    margin-top: 1.5rem;
-}
-
-.legend-item {
-    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-    background-color: #292929;
-    padding: 5px 12px;
-    border-radius: 8px;
 }
 
-.legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
+.counter-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid;
+    border-radius: 12px;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    #domain-stats-container {
-        padding: 1.5rem;
-    }
+.counter-value {
+    font-size: 32px;
+    font-weight: bold;
+}
 
-    .legend-container {
-        flex-direction: column;
-    }
-
-    .legend-item {
-        width: 100%;
-        justify-content: center;
-    }
+.counter-status {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    color: #ddd;
 }

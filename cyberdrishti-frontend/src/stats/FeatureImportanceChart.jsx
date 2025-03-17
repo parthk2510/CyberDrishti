@@ -5,13 +5,13 @@ import './FeatureImportanceChart.css';
 const FeatureImportanceChart = () => {
     const chartRef = useRef();
 
-    const dataDetails = [
-        { feature: 'SSL mismatches', description: 'Certificates that fail SSL checks are common in phishing attempts.' },
-        { feature: 'Domain age', description: 'Recently registered domains have higher phishing risk.' },
-        { feature: 'Typosquatting patterns', description: 'Domain names resembling legitimate services indicate impersonation.' },
-        { feature: 'IP reputation', description: 'IPs linked to malicious activities are flagged.' },
-        { feature: 'Hosting provider reputation', description: 'Providers with minimal security protocols often host phishing sites.' }
-    ];
+    // const dataDetails = [
+    //     { feature: 'SSL mismatches', description: 'Certificates that fail SSL checks are common in phishing attempts.' },
+    //     { feature: 'Domain age', description: 'Recently registered domains have higher phishing risk.' },
+    //     { feature: 'Typosquatting patterns', description: 'Domain names resembling legitimate services indicate impersonation.' },
+    //     { feature: 'IP reputation', description: 'IPs linked to malicious activities are flagged.' },
+    //     { feature: 'Hosting provider reputation', description: 'Providers with minimal security protocols often host phishing sites.' }
+    // ];
 
     useEffect(() => {
         const data = [
@@ -82,7 +82,7 @@ const FeatureImportanceChart = () => {
             <h3 className="feature-header">🧠 Feature Importance</h3>
             <svg ref={chartRef}></svg>
 
-            <div className="data-details">
+            {/* <div className="data-details">
                 <h4>📊 Data Insights</h4>
                 <ul>
                     {dataDetails.map((item, index) => (
@@ -91,7 +91,7 @@ const FeatureImportanceChart = () => {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> */}
         </div>
     );
 };

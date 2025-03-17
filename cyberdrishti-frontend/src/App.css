@@ -1,7 +1,6 @@
 .content {
-    margin-top: 56px; /*Offset for the fixed header */
-    padding: 20px;
-    background-color: #121212;
+    margin-top: 20px; /*Offset for the fixed header */
+    background-color: #000;
     min-height: 100vh;
     color: #fff;
     transition: margin-left 0.3s ease;
@@ -29,4 +28,31 @@ body.auth-page {
     height: 100vh;
     width: 100vw;
     margin: 0;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.content-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    overflow-y: auto;
+}
+
+.main-content.sidebar-open {
+    margin-left: 250px;
+}
+
+.main-content.sidebar-closed {
+    margin-left: 80px;
 }

@@ -28,26 +28,54 @@ const PhishingChart = () => {
 
         const chartGroup = svg.append('g').attr('transform', 'translate(30, 20)');
 
+        // Tooltip Setup
+        const tooltip = d3.select('#phishing-chart-container')
+            .append('div')
+            .attr('class', 'tooltip')
+            .style('opacity', 0);
+
+        // Animated Bars with Dynamic Colors
         chartGroup.selectAll('.phishing-bar')
             .data(data)
             .enter()
             .append('rect')
-            .attr('class', 'phishing-bar')
+            .attr('class', d => {
+                if (d.value < 3000) return 'phishing-bar low';
+                if (d.value < 10000) return 'phishing-bar medium';
+                return 'phishing-bar high';
+            })
             .attr('x', d => xScale(d.period))
-            .attr('y', d => yScale(d.value))
+            .attr('y', 250)
             .attr('width', xScale.bandwidth())
+            .attr('height', 0)
+            .on('mouseover', (event, d) => {
+                tooltip.transition().duration(200).style('opacity', 1);
+                tooltip.html(`${d.period}: ${d.value} sites`)
+                    .style('left', `${event.pageX + 10}px`)
+                    .style('top', `${event.pageY - 20}px`);
+            })
+            .on('mouseout', () => tooltip.transition().duration(200).style('opacity', 0))
+            .transition()
+            .duration(1000)
+            .attr('y', d => yScale(d.value))
             .attr('height', d => 250 - yScale(d.value));
 
+        // Value Display
         chartGroup.selectAll('.phishing-bar-value')
             .data(data)
             .enter()
             .append('text')
             .attr('class', 'phishing-bar-value')
             .attr('x', d => xScale(d.period) + xScale.bandwidth() / 2)
-            .attr('y', d => yScale(d.value) - 5)
+            .attr('y', 250)
             .attr('text-anchor', 'middle')
+            .transition()
+            .delay(800)
+            .duration(500)
+            .attr('y', d => yScale(d.value) - 5)
             .text(d => d.value);
 
+        // Axis Animations
         svg.append('g')
             .attr('id', 'phishing-chart-axis')
             .attr('transform', 'translate(30, 270)')
@@ -56,6 +84,8 @@ const PhishingChart = () => {
         svg.append('g')
             .attr('id', 'phishing-chart-axis')
             .attr('transform', 'translate(30, 20)')
+            .transition()
+            .duration(1000)
             .call(d3.axisLeft(yScale).ticks(5));
     }, []);
 
