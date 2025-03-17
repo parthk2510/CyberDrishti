@@ -54,22 +54,21 @@ const ThreatSeverityChart = () => {
     }, []);
 
     return (
-        <div className="chart-container">
-            <h3>🔥 Threat Severity Distribution</h3>
+        <div id="threat-chart-container">
+            <h3 className="threat-chart-title">🔥 Threat Severity Distribution</h3>
             <svg ref={chartRef}></svg>
-            <div className="legend">
-                <div className="legend-item">
-                    <div className="legend-color" style={{ backgroundColor: '#e53935' }}></div>
-                    <span>Critical</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-color" style={{ backgroundColor: '#f57c00' }}></div>
-                    <span>High</span>
-                </div>
-                <div className="legend-item">
-                    <div className="legend-color" style={{ backgroundColor: '#43a047' }}></div>
-                    <span>Medium</span>
-                </div>
+
+            <div className="stats-grid">
+                {[
+                    { label: 'Critical', value: '45%', className: 'critical' },
+                    { label: 'High', value: '30%', className: 'high' },
+                    { label: 'Medium', value: '25%', className: 'medium' }
+                ].map((item, index) => (
+                    <div key={index} className={`stats-box ${item.className}`}>
+                        <div className="counter">{item.value}</div>
+                        <div className="label">{item.label}</div>
+                    </div>
+                ))}
             </div>
         </div>
     );

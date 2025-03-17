@@ -1,28 +1,99 @@
-#chart-container {
-    background-color: #272829; 
-    margin: 10px;
+/* ======================= */
+/* CHART CONTAINER STYLING */
+/* ======================= */
+#top-banks-container {
+    background-color: #121212;
+    border: 2px solid #00d4ff;
+    border-radius: 12px;
     padding: 20px;
-}
-
-#chart-title {
-    color: #FFA726; 
-    margin-bottom: 15px;
+    margin: 10px;
     text-align: center;
+    color: #ffffff;
+}
+
+#top-banks-title {
+    color: #FFA726;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* ======================= */
+/* BANK CARD DESIGN */
+/* ======================= */
+.bank-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #1c1c1c 40%, #292929 100%);
+    border: 2px solid;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 15px 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.bank-card:hover {
+    transform: scale(1.03);
+}
+
+/* ======================= */
+/* BANK INFO */
+/* ======================= */
+.bank-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.bank-icon {
+    font-size: 1.8rem;
+    color: #FFA726;
+}
+
+.bank-details strong {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-right: 5px;
+}
+
+.bank-details span {
+    color: inherit;
+    font-size: 0.8rem;
     font-weight: bold;
 }
 
-.bar {
-    rx: 5px; /* Rounded bar edges */
+/* ======================= */
+/* PROGRESS BAR DESIGN */
+/* ======================= */
+.progress-bar {
+    height: 5px;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: width 1.2s ease-in-out;
 }
 
-.label {
-    fill: #ffffff;
-    font-weight: bold;
-    font-size: 14px;
-}
+/* ======================= */
+/* RESPONSIVE DESIGN */
+/* ======================= */
+@media (max-width: 600px) {
+    #top-banks-container {
+        padding: 15px;
+    }
 
-.bank-label {
-    fill: #ffffff;
-    font-weight: bold;
-    font-size: 14px;
+    .bank-details strong,
+    .bank-details span {
+        font-size: 1rem;
+    }
+
+    .progress-bar {
+        height: 3px;
+    }
 }

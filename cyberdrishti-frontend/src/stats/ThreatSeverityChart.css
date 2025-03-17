@@ -1,39 +1,106 @@
-.chart-container {
-    background: #272829;
-    color: #ffffff;
-    text-align: center;
-    transition: transform 0.3s ease;
-    margin: 10px;
+/* ======================= */
+/* THREAT CHART CONTAINER */
+/* ======================= */
+#threat-chart-container {
+    background-color: #121212;
+    border: 2px solid #00d4ff;
+    border-radius: 12px;
     padding: 20px;
+    margin: 10px;
+    text-align: center;
+    color: #ffffff;
 }
 
-.chart-container:hover {
-    transform: scale(1.03);
+/* ======================= */
+/* TITLE STYLING */
+/* ======================= */
+.threat-chart-title {
+    color: #00d4ff;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
 }
 
-.chart-container h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    background: -webkit-linear-gradient(45deg, #e53935, #f57c00, #43a047);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+/* ======================= */
+/* CHART STYLING */
+/* ======================= */
+#threat-chart-container svg {
+    background: #1E1E1E;
+    border-radius: 1000px;
+    margin: 10px;
+    padding: 10px;
 }
 
-.legend {
+/* ======================= */
+/* COUNTER BOX DESIGN */
+/* ======================= */
+.stats-grid {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 20px;
 }
 
-.legend-item {
+.stats-box {
+    width: 100px;
+    height: 100px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    border-radius: 10px;
+    border: 2px solid;
 }
 
-.legend-color {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
+/* ======================= */
+/* INDIVIDUAL BOX COLORS */
+/* ======================= */
+.critical {
+    border-color: #e53935;
+    color: #e53935;
+}
+
+.high {
+    border-color: #f57c00;
+    color: #f57c00;
+}
+
+.medium {
+    border-color: #43a047;
+    color: #43a047;
+}
+
+/* ======================= */
+/* TEXT STYLING */
+/* ======================= */
+.counter {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: #AAAAAA;
+}
+
+/* ======================= */
+/* RESPONSIVE DESIGN */
+/* ======================= */
+@media (max-width: 600px) {
+    .stats-grid {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .stats-box {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .counter {
+        font-size: 1.2rem;
+    }
+
+    .label {
+        font-size: 0.9rem;
+    }
 }

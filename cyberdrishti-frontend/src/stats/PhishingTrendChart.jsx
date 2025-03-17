@@ -32,6 +32,20 @@ const PhishingTrendChart = () => {
         const chart = svg.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
+        const gradient = svg.append('defs')
+            .append('linearGradient')
+            .attr('id', 'line-gradient')
+            .attr('gradientUnits', 'userSpaceOnUse')
+            .attr('x1', 0).attr('y1', 0)
+            .attr('x2', width).attr('y2', 0);
+
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', '#4CAF50');
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', '#FF5722');
+
         const line = d3.line()
             .x(d => xScale(d.year))
             .y(d => yScale(d.attempts));
@@ -39,9 +53,14 @@ const PhishingTrendChart = () => {
         chart.append('path')
             .datum(data)
             .attr('fill', 'none')
-            .attr('stroke', '#4CAF50')
+            .attr('stroke', 'url(#line-gradient)')
             .attr('stroke-width', 4)
-            .attr('d', line);
+            .attr('d', line)
+            .attr('stroke-dasharray', 450)
+            .attr('stroke-dashoffset', 450)
+            .transition()
+            .duration(1500)
+            .attr('stroke-dashoffset', 0);
 
         chart.selectAll('.phishing-trend-dot')
             .data(data)
@@ -58,38 +77,22 @@ const PhishingTrendChart = () => {
             .append('text')
             .attr('class', 'data-label')
             .attr('x', d => xScale(d.year))
-            .attr('y', d => yScale(d.attempts) - 10)
-            .attr('text-anchor', 'middle')
-            .text(d => d.attempts)
-            .style('fill', '#ffffff')
-            .style('font-weight', 'bold');
+            .attr('y', d => yScale(d.attempts) - 15)
+            .text(d => `${d.attempts}`)
+            .style('opacity', 0)
+            .transition()
+            .delay((d, i) => i * 500)
+            .duration(1000)
+            .style('opacity', 1);
 
         // X-Axis
         chart.append('g')
             .attr('transform', `translate(0, ${height - margin.top - margin.bottom})`)
             .call(d3.axisBottom(xScale));
 
-        // X-Axis Label
-        chart.append('text')
-            .attr('class', 'axis-label')
-            .attr('x', (width - margin.left - margin.right) / 2)
-            .attr('y', height - margin.bottom + 30)
-            .text('Year')
-            .style('fill', '#ffffff');
-
         // Y-Axis
         chart.append('g')
-            .call(d3.axisLeft(yScale).ticks(5).tickSize(-width + margin.left + margin.right));
-
-        // Y-Axis Label
-        chart.append('text')
-            .attr('class', 'axis-label')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', -(height / 2))
-            .attr('y', -50)
-            .attr('text-anchor', 'middle')
-            .text('Phishing Attempts')
-            .style('fill', '#ffffff');
+            .call(d3.axisLeft(yScale).ticks(5));
     }, []);
 
     return (

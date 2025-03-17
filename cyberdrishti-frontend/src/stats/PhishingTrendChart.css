@@ -1,9 +1,12 @@
 #phishing-trend-container {
-    background-color: #272829;
+    background-color: #121212;
     color: #ffffff;
     text-align: center;
-    margin: 10px;
+    border: 2px solid #00d4ff;
+    border-radius: 12px;
     padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 }
 
 #phishing-trend-chart {
@@ -15,29 +18,38 @@
 .phishing-trend-dot {
     fill: #4CAF50;
     stroke: #ffffff;
-    stroke-width: 2;
+    stroke-width: 1;
     transition: r 0.3s ease;
+    animation: glow 1.5s infinite alternate;
 }
 
-.phishing-trend-dot:hover {
-    r: 10;
-    fill: #81C784;
+@keyframes glow {
+    from {
+        filter: drop-shadow(0 0 8px #4CAF50);
+    }
+    to {
+        filter: drop-shadow(0 0 15px #81C784);
+    }
 }
 
 .data-label {
     font-size: 12px;
     fill: #ffffff;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    animation: float 1.5s ease-in-out infinite;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-5px);
+    }
 }
 
 #phishing-trend-title {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
-}
-
-.axis-label {
-    font-size: 14px;
-    fill: #FF9800;
-    font-weight: bold;
 }
