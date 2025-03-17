@@ -78,6 +78,7 @@ WSGI_APPLICATION = 'cyberdrishiti.wsgi.application'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React default port
     "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001"
 ]
 
 CORS_ALLOW_METHODS = [
@@ -152,3 +153,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
